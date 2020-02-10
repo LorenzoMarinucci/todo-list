@@ -345,3 +345,25 @@ img.edit {
   position: relative;
   bottom: 2px;
 }
+
+.dot {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  top: 5px;
+}
+
+.dot.red {
+  background-color: red;
+}
+
+.dot.yellow {
+  background-color: yellow;
+}
+
+.dot.green {
+  background-color: green;
+}
