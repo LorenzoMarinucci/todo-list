@@ -1,5 +1,6 @@
 html {
   font-family: "Quicksand", sans-serif;
+  background: linear-gradient(to bottom, lightcoral, lightcyan);
 }
 
 i {
@@ -30,8 +31,9 @@ i {
   background: linear-gradient(to bottom, lightblue, lightcyan);
   background-repeat: no-repeat;
   height: 100vh;
-  width: 250px;
+  width: 300px;
   position: relative;
+  display: inline-block;
 }
 
 #projectsHeader {
@@ -50,14 +52,14 @@ i {
 #proyectList {
   margin-top: 25px;
   font-size: 16px;
-  max-width: 250px;
+  max-width: 300px;
   max-height: 525px;
   overflow: auto;
 }
 
 .project {
   overflow: default;
-  max-width: 250px;
+  max-width: 300px;
   word-break: break-all;
   margin: 10px 0;
   padding-left: 5px;
@@ -92,7 +94,6 @@ i {
   margin-bottom: 5px;
   font-size: 16px;
   outline: none;
-  border: none;
   background-color: limegreen;
   border: 2px solid green;
   cursor: pointer;
@@ -132,4 +133,215 @@ i {
   left: 0px;
   margin-left: 10px;
   margin-bottom: 2px;
+}
+
+#todosSection {
+  height: 100vh;
+  width: calc(100% - 305px);
+  display: inline-block;
+  vertical-align: bottom;
+  position: relative;
+}
+
+#todosContainer {
+  width: 600px;
+  margin: 0px auto;
+  max-height: 600px;
+  background-color: white;
+  vertical-align: bottom;
+  border-radius: 15px;
+  bottom: 50%;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  padding-bottom: 5px;
+}
+
+#todosSection h2 {
+  display: inline-block;
+  font-size: 30px;
+  margin-top: 15px;
+  margin-left: 19px;
+  max-width: 460px;
+  word-break: break-all;
+  min-height: 40px;
+  font-weight: bold;
+}
+
+#addTodo {
+  padding: 10px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  margin-right: 15px;
+  margin-top: 10px;
+  font-size: 16px;
+  outline: none;
+  background-color: limegreen;
+  border: 2px solid green;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+}
+
+#addTodo:active {
+  transform: scale(0.9);
+}
+
+/* The container */
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196f3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+#todoList {
+  overflow: auto;
+  margin: 0px 10px;
+  max-height: 495px;
+  padding: 5px 0;
+}
+
+.todo {
+  margin: 20px 10px;
+  word-break: break-all;
+}
+
+.todo:first-child {
+  margin-top: 0;
+}
+
+.todo:last-child {
+  margin-bottom: 0;
+}
+
+.todoHeader {
+  position: relative;
+  width: 550px;
+}
+
+.todo h3 {
+  display: inline-block;
+  word-break: break-all;
+  max-width: 390px;
+  margin-bottom: 10px;
+  font-size: 26px;
+}
+
+.todoOptions {
+  display: inline-block;
+  position: relative;
+  top: 3px;
+}
+
+.todo h4 {
+  font-size: 18px;
+  margin-bottom: 3px;
+}
+
+.todo p {
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.todo .container {
+  display: inline-block;
+  margin: 0;
+  bottom: 20px;
+  margin-left: 10px;
+  transform: scale(0.9);
+}
+
+.todo img {
+  cursor: pointer;
+}
+
+img.delete {
+  width: 23px;
+  height: 23x;
+  margin-right: 6px;
+}
+
+img.edit {
+  width: 23px;
+  height: 23px;
+  margin-right: 7px;
+}
+
+.todo i {
+  border-width: 0 6px 6px 0;
+  padding: 6px;
+  float: right;
+  margin-top: 0;
+  position: relative;
+  top: -1px;
+  border-color: rgba(0, 0, 0, 0.8);
+}
+
+.buttons {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  bottom: 2px;
 }
