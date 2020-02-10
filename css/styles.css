@@ -144,10 +144,16 @@ i {
   position: relative;
 }
 
+#todosHeader {
+  overflow: auto;
+  max-height: 60px;
+  width: 590px;
+  padding: 2px;
+}
+
 #todosContainer {
   width: 600px;
   margin: 0px auto;
-  max-height: 600px;
   background-color: white;
   vertical-align: bottom;
   border-radius: 15px;
@@ -155,38 +161,64 @@ i {
   position: relative;
   top: 50%;
   transform: translateY(-50%);
-  padding-bottom: 5px;
+  padding-bottom: 8px;
+  padding-top: 10px;
 }
 
 #todosSection h2 {
   display: inline-block;
   font-size: 30px;
-  margin-top: 15px;
   margin-left: 19px;
-  max-width: 460px;
+  max-width: 600px;
   word-break: break-all;
   min-height: 40px;
   font-weight: bold;
 }
 
-#addTodo {
+#addTodo,
+#editProject,
+#deleteProject {
   padding: 10px;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  margin-right: 15px;
-  margin-top: 10px;
-  font-size: 16px;
+  font-size: 14px;
+  margin: 0 10px;
   outline: none;
-  background-color: limegreen;
-  border: 2px solid green;
   cursor: pointer;
   color: white;
   font-weight: bold;
 }
 
-#addTodo:active {
+#projectButtons {
+  text-align: right;
+  margin-right: 20px;
+}
+
+#addTodo {
+  background-color: limegreen;
+  border: 2px solid green;
+}
+
+#addTodo:active,
+#deleteProject:active,
+#editProject:active {
   transform: scale(0.9);
+}
+
+#editProject {
+  background-color: rgba(255, 255, 0, 0.7);
+  border: 2px solid yellow;
+}
+
+#deleteProject {
+  background-color: rgba(255, 0, 0, 0.8);
+  border: 2px solid red;
+}
+
+#projectDescription {
+  margin-left: 20px;
+  margin-right: 5px;
+  margin-top: 4px;
+  word-break: break-all;
+  max-width: 600px;
 }
 
 /* The container */
@@ -260,13 +292,14 @@ i {
 #todoList {
   overflow: auto;
   margin: 0px 10px;
-  max-height: 495px;
+  max-height: 440px;
   padding: 5px 0;
 }
 
 .todo {
   margin: 20px 10px;
   word-break: break-all;
+  margin-right: 5px;
 }
 
 .todo:first-child {
