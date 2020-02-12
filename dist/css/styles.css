@@ -309,13 +309,13 @@ i {
 
 .todoHeader {
   position: relative;
-  width: 550px;
+  width: 570px;
 }
 
 .todo h3 {
   display: inline-block;
   word-break: break-all;
-  max-width: 390px;
+  width: 425px;
   margin-bottom: 10px;
   font-size: 26px;
 }

@@ -51,7 +51,8 @@ window.addEventListener("load", () => {
   );
   projects[1].todos.push(
     new Todo({
-      name: "Correr",
+      name:
+        "CorrerASÑDJASLDKJASLKDJASLKDJASLKDJASLKJDASLKJDAKLSDASJKLDJLASDJASLDJKASLKJD",
       priority: "Medium",
       dueDate: "2/2/20",
       description: "Salir a correr"
