@@ -12,11 +12,13 @@ let projects = [],
 function autoSelectProject() {
   selectedProject = document.querySelector(".project");
   selectedProject.toggleAttribute("selected");
+  selectedIndex = parseInt(selectedProject.getAttribute("data-index"));
+  DOMmanipulation.renderTodosContainer(todosContainer, projects[selectedIndex]);
 }
 
 function selectProject(project) {
-  if (!project.parentNode.hasAttribute("selected")) {
-    selectedProject.toggleAttribute("selected");
+  if (!project.hasAttribute("selected")) {
+    if (selectedProject) selectedProject.toggleAttribute("selected");
     selectedProject = project;
     selectedProject.toggleAttribute("selected");
     selectedIndex = selectedProject.getAttribute("data-index");
@@ -68,18 +70,8 @@ window.addEventListener("load", () => {
   );
   projects.push(Project({ name: "", description: "" }));
   DOMmanipulation.renderProjects(projectList, projects);
-  document
-    .querySelectorAll(".project")
-    .forEach(project =>
-      project.addEventListener("click", e => selectProject(e.parentNode))
-    );
   if (projects.length > 0) {
     autoSelectProject();
-    selectedIndex = parseInt(selectedProject.getAttribute("data-index"));
-    DOMmanipulation.renderTodosContainer(
-      todosContainer,
-      projects[selectedIndex]
-    );
   }
 });
 
@@ -94,6 +86,23 @@ function addProject() {
   DOMmanipulation.deleteForm();
 }
 
+function deleteProject() {
+  projects.splice(selectedIndex, 1);
+  DOMmanipulation.renderProjects(projectList, projects);
+  if (projects.length > 0) {
+    autoSelectProject();
+  } else {
+    while (todosContainer.firstChild) {
+      todosContainer.firstChild.remove();
+    }
+    let div = document.createElement("div");
+    div.textContent = "You don't have any project. Add one!";
+    div.style.textAlign = "center";
+    div.style.margin = "0 auto";
+    todosContainer.appendChild(div);
+  }
+}
+
 document.addEventListener("click", e => {
   if (e.target) {
     switch (e.target.id) {
@@ -102,6 +111,9 @@ document.addEventListener("click", e => {
         break;
       case "submitProject":
         addProject();
+        break;
+      case "deleteProject":
+        deleteProject();
         break;
       default: {
         if (e.target.parentNode.classList.contains("project"))

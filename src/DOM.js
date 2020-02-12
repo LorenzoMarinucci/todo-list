@@ -14,6 +14,7 @@ const DOMmanipulation = (function() {
     });
   };
   const renderTodosContainer = function(container, project) {
+    while (container.firstChild) container.firstChild.remove();
     let header = document.createElement("div");
     header.id = "todosHeader";
     let h2 = document.createElement("h2");

@@ -159,7 +159,7 @@ i {
   top: 50%;
   transform: translateY(-50%);
   padding-bottom: 8px;
-  padding-top: 10px;
+  padding-top: 6px;
 }
 
 #todosSection h2 {
@@ -186,7 +186,7 @@ i {
 
 #projectButtons {
   text-align: right;
-  margin-right: 20px;
+  margin-right: 8px;
 }
 
 #addTodo {
@@ -366,7 +366,7 @@ img.edit {
   float: right;
   margin-top: 0;
   position: relative;
-  top: -1px;
+  top: 0px;
   border-color: rgba(0, 0, 0, 0.8);
 }
 
