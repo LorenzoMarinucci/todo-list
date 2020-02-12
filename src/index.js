@@ -1,7 +1,6 @@
 import Project from "./projects.js";
 import Todo from "./todos.js";
 import DOMmanipulation from "./DOM.js";
-import eventHandler from "./eventHandler.js";
 
 const projectList = document.getElementById("projectList"),
   todosContainer = document.getElementById("todosContainer"),
@@ -15,16 +14,15 @@ function autoSelectProject() {
   selectedProject.toggleAttribute("selected");
 }
 
-function selectProject(e) {
-  if (!e.target.parentNode.hasAttribute("selected")) {
+function selectProject(project) {
+  if (!project.parentNode.hasAttribute("selected")) {
     selectedProject.toggleAttribute("selected");
-    selectedProject = e.target.parentNode;
+    selectedProject = project;
     selectedProject.toggleAttribute("selected");
     selectedIndex = selectedProject.getAttribute("data-index");
     while (todosContainer.firstChild) {
       todosContainer.firstChild.remove();
     }
-    console.log(todosContainer);
     DOMmanipulation.renderTodosContainer(
       todosContainer,
       projects[selectedIndex]
@@ -33,13 +31,47 @@ function selectProject(e) {
 }
 
 window.addEventListener("load", () => {
-  projects.push(Project("Default"));
-  projects.push(Project("asdf"));
-  DOMmanipulation.renderProjects(projectList, projects);
-  eventHandler.clickProject(
-    document.querySelectorAll(".project"),
-    selectProject
+  projects.push(Project({ name: "Default", description: "Just testing" }));
+  projects.push(Project({ name: "Asdf", description: "Whatever" }));
+  projects[0].todos.push(
+    new Todo({
+      name: "Asdd",
+      priority: "High",
+      dueDate: "2/2/20",
+      description: "arre"
+    })
   );
+  projects[0].todos.push(
+    new Todo({
+      name: "Correr",
+      priority: "Low",
+      dueDate: "2/2/20",
+      description: "Salir a correr"
+    })
+  );
+  projects[1].todos.push(
+    new Todo({
+      name: "Correr",
+      priority: "Medium",
+      dueDate: "2/2/20",
+      description: "Salir a correr"
+    })
+  );
+  projects[1].todos.push(
+    new Todo({
+      name: "Nada",
+      priority: "None",
+      dueDate: "2/2/20",
+      description: "Salir a correr"
+    })
+  );
+  projects.push(Project({ name: "", description: "" }));
+  DOMmanipulation.renderProjects(projectList, projects);
+  document
+    .querySelectorAll(".project")
+    .forEach(project =>
+      project.addEventListener("click", e => selectProject(e.parentNode))
+    );
   if (projects.length > 0) {
     autoSelectProject();
     selectedIndex = parseInt(selectedProject.getAttribute("data-index"));
@@ -47,5 +79,33 @@ window.addEventListener("load", () => {
       todosContainer,
       projects[selectedIndex]
     );
+  }
+});
+
+addProjectBtn.addEventListener("click", () => {
+  DOMmanipulation.showProjectForm();
+});
+
+function addProject() {
+  projects.push(Project(DOMmanipulation.fetchProjectData()));
+  DOMmanipulation.renderProjects(projectList, projects);
+  selectProject(document.querySelectorAll(".project:last-child")[0]);
+  DOMmanipulation.deleteForm();
+}
+
+document.addEventListener("click", e => {
+  if (e.target) {
+    switch (e.target.id) {
+      case "cancelSubmition":
+        DOMmanipulation.deleteForm();
+        break;
+      case "submitProject":
+        addProject();
+        break;
+      default: {
+        if (e.target.parentNode.classList.contains("project"))
+          selectProject(e.target.parentNode);
+      }
+    }
   }
 });

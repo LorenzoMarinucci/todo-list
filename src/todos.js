@@ -1,6 +1,12 @@
-const Todo = function(name, priority, dueDate, description) {
+const Todo = function(obj) {
   let done = false;
-  return { name, priority, dueDate, description, done };
+  return {
+    name: obj.name,
+    priority: obj.priority,
+    dueDate: obj.dueDate,
+    description: obj.description,
+    done
+  };
 };
 
 export default Todo;

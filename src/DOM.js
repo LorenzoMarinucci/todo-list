@@ -1,5 +1,8 @@
 const DOMmanipulation = (function() {
   const renderProjects = function(container, projects) {
+    while (container.firstChild) {
+      container.firstChild.remove();
+    }
     projects.forEach((project, index) => {
       let h2 = document.createElement("h2");
       h2.textContent = `${project.name}`;
@@ -18,6 +21,7 @@ const DOMmanipulation = (function() {
     header.appendChild(h2);
     let projectDescription = document.createElement("p");
     projectDescription.id = "projectDescription";
+    projectDescription.textContent = project.description;
     header.appendChild(projectDescription);
     let todoList = document.createElement("div");
     todoList = renderTodos(todoList, project);
@@ -45,11 +49,11 @@ const DOMmanipulation = (function() {
   const renderTodos = function(container, project) {
     if (project.todos.length > 0) {
       project.todos.forEach((todo, index) => {
-        let div = document.createElement("div").classList.add("todo");
+        let div = document.createElement("div");
+        div.classList.add("todo");
         div.setAttribute("data-index", index);
-        let todoHeader = document
-          .createElement("div")
-          .classList.add("todoHeader");
+        let todoHeader = document.createElement("div");
+        todoHeader.classList.add("todoHeader");
         let h3 = document.createElement("h3");
         let color;
         switch (todo.priority) {
@@ -65,26 +69,68 @@ const DOMmanipulation = (function() {
           default:
             color = "grey";
         }
-        h3.innerHTML = `<span class="dot ${color}"></span>${todo.name}`;
+        h3.innerHTML = `<span class="dot ${color}"></span> ${todo.name}`;
         todoHeader.appendChild(h3);
-        let buttons = document.createElement("div").classList.add("buttons");
+        let buttons = document.createElement("div");
+        buttons.classList.add("buttons");
         let checked = todo.done ? ' checked="checked"' : "";
         buttons.innerHTML = `<label class="container"><input type="checkbox"${checked} /><span class="checkmark"></span></label><div class="todoOptions"><img class="edit" src="images/edit.png" /><img class="delete" src="images/delete.png" /></div></div><i class="down" class="showTodo"></i>`;
-        todoHeader.appendChild(h3, buttons);
+        todoHeader.appendChild(h3);
+        todoHeader.appendChild(buttons);
         let due = document.createElement("h4");
-        due.textContent = `Due: ${todo.due}`;
+        due.textContent = `Due: ${todo.dueDate}`;
         let priority = document.createElement("h4");
         priority.textContent = `Priority: ${todo.priority}`;
         let p = document.createElement("p");
         p.classList.add("description");
         p.textContent = todo.description;
-        div.appendChild(todoHeader, due, priority, p);
+        div.appendChild(todoHeader);
+        div.appendChild(due);
+        div.appendChild(priority);
+        div.appendChild(p);
         return container.appendChild(div);
       });
     }
     return container;
   };
-  return { renderProjects, renderTodosContainer, renderTodos };
+  const showProjectForm = () => {
+    let body = document.querySelector("body");
+    let div = document.createElement("div");
+    div.id = "formBackground";
+    div.innerHTML =
+      '<div id="projectForm">\
+        <form action="">\
+          <label for="name">Project name</label>\
+          <input type="text" id="name" />\
+          <label for="description">Project description</label>\
+          <textarea id="description"></textarea>\
+        </form>\
+        <div id="projectFormButtons">\
+          <button id="cancelSubmition">Cancel</button>\
+          <button id="submitProject">Submit</button>\
+        </div>\
+      </div>';
+    body.appendChild(div);
+  };
+  const deleteForm = () => {
+    let container = document.getElementById("formBackground");
+    container.parentElement.removeChild(container);
+  };
+  const fetchProjectData = () => {
+    const form = document.querySelector("form");
+    return {
+      name: form.querySelector("#name").value,
+      description: form.querySelector("#description").value
+    };
+  };
+  return {
+    renderProjects,
+    renderTodosContainer,
+    renderTodos,
+    showProjectForm,
+    deleteForm,
+    fetchProjectData
+  };
 })();
 
 export default DOMmanipulation;
