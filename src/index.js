@@ -136,6 +136,14 @@ function addTodo() {
   DOMmanipulation.deleteForm();
 }
 
+function checkmarkTodo(todo) {
+  projects[selectedIndex].todos[
+    parseInt(todo.getAttribute("data-index"))
+  ].done = !projects[selectedIndex].todos[
+    parseInt(todo.getAttribute("data-index"))
+  ].done;
+}
+
 document.addEventListener("click", e => {
   if (e.target) {
     switch (e.target.id) {
@@ -164,6 +172,8 @@ document.addEventListener("click", e => {
       default: {
         if (e.target.parentNode.classList.contains("project"))
           selectProject(e.target.parentNode);
+        else if (e.target.classList.contains("checkmark"))
+          checkmarkTodo(e.target.closest(".todo"));
       }
     }
   }
