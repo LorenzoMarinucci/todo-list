@@ -316,7 +316,7 @@ i {
 .todo h3 {
   display: inline-block;
   word-break: break-all;
-  width: 425px;
+  width: 415px;
   margin-bottom: 10px;
   font-size: 26px;
 }
@@ -325,6 +325,7 @@ i {
   display: inline-block;
   position: relative;
   top: 3px;
+  padding-right: 10px;
 }
 
 .todo h4 {
@@ -368,6 +369,7 @@ img.edit {
   margin-top: 0;
   position: relative;
   top: 0px;
+  right: 10px;
   border-color: rgba(0, 0, 0, 0.8);
 }
 
@@ -415,7 +417,7 @@ img.edit {
 
 #projectForm {
   width: 400px;
-  height: 192px;
+  height: 182px;
   margin: 0 auto;
   background-color: white;
   border-radius: 10px;
@@ -427,13 +429,14 @@ img.edit {
   padding-left: 10px;
 }
 
-#projectForm label {
+form label {
   font-size: 20px;
   display: block;
 }
 
-#projectForm input,
-textarea {
+form input,
+textarea,
+select {
   display: block;
   margin-top: 7px;
   margin-bottom: 10px;
@@ -442,23 +445,34 @@ textarea {
   border: 1px solid lightgrey;
 }
 
-#projectForm textarea {
+select {
+  width: 388px;
+  background-color: white;
+}
+
+form textarea {
   width: 382px;
   resize: none;
   height: 60px;
 }
 
-#projectForm input {
+form input {
   width: 385px;
 }
 
 #projectFormButtons {
   float: right;
   position: relative;
-  right: 5px;
+  right: 12px;
 }
 
-#projectFormButtons button {
+#todoFormButtons {
+  float: right;
+  position: relative;
+  right: 12px;
+}
+
+form button {
   font-family: inherit;
   font-size: 12px;
   padding: 5px;
@@ -469,9 +483,11 @@ textarea {
   background-color: red;
   color: white;
   border: 1px solid black;
+  margin-right: 10px;
 }
 
-#submitProject {
+#submitProject,
+#submitTodo {
   background-color: green;
   color: white;
   border: 1px solid black;
@@ -479,4 +495,22 @@ textarea {
 
 button:hover {
   cursor: pointer;
+}
+
+#todoForm {
+  width: 400px;
+  height: 293px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 10px;
+  position: relative;
+  bottom: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  padding-top: 8px;
+  padding-left: 10px;
+}
+
+button {
+  transition: all 0.4s;
 }
