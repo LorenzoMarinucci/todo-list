@@ -3,8 +3,7 @@ import Todo from "./todos.js";
 import DOMmanipulation from "./DOM.js";
 
 const projectList = document.getElementById("projectList"),
-  todosContainer = document.getElementById("todosContainer"),
-  addProjectBtn = document.getElementById("addProject");
+  todosContainer = document.getElementById("todosContainer");
 let projects = [],
   selectedProject,
   selectedIndex,
@@ -76,10 +75,6 @@ window.addEventListener("load", () => {
   }
 });
 
-addProjectBtn.addEventListener("click", () => {
-  DOMmanipulation.showProjectForm();
-});
-
 function addProject() {
   if (isEdit) {
     let obj = DOMmanipulation.fetchProjectData();
@@ -130,6 +125,17 @@ function editProject() {
   );
 }
 
+function addTodo() {
+  let obj = DOMmanipulation.fetchTodoData();
+  console.log(obj);
+  projects[selectedIndex].todos.push(new Todo(obj));
+  DOMmanipulation.renderTodos(
+    document.getElementById("todoList"),
+    projects[selectedIndex]
+  );
+  DOMmanipulation.deleteForm();
+}
+
 document.addEventListener("click", e => {
   if (e.target) {
     switch (e.target.id) {
@@ -145,6 +151,15 @@ document.addEventListener("click", e => {
         break;
       case "editProject":
         editProject();
+        break;
+      case "submitTodo":
+        addTodo();
+        break;
+      case "addProject":
+        DOMmanipulation.showProjectForm();
+        break;
+      case "addTodo":
+        DOMmanipulation.showTodoForm();
         break;
       default: {
         if (e.target.parentNode.classList.contains("project"))

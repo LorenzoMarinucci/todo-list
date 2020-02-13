@@ -25,7 +25,7 @@ const DOMmanipulation = (function() {
     projectDescription.textContent = project.description;
     header.appendChild(projectDescription);
     let todoList = document.createElement("div");
-    todoList = renderTodos(todoList, project);
+    renderTodos(todoList, project);
     todoList.id = "todoList";
     let projectButtons = document.createElement("div");
     let editProject = document.createElement("button");
@@ -49,6 +49,7 @@ const DOMmanipulation = (function() {
   };
   const renderTodos = function(container, project) {
     if (project.todos.length > 0) {
+      while (container.firstChild) container.firstChild.remove();
       project.todos.forEach((todo, index) => {
         let div = document.createElement("div");
         div.classList.add("todo");
@@ -89,10 +90,9 @@ const DOMmanipulation = (function() {
         div.appendChild(due);
         div.appendChild(priority);
         div.appendChild(p);
-        return container.appendChild(div);
+        container.appendChild(div);
       });
     }
-    return container;
   };
   const showProjectForm = () => {
     let body = document.querySelector("body");
@@ -132,6 +132,43 @@ const DOMmanipulation = (function() {
     document.getElementById("name").value = name;
     document.getElementById("description").value = description;
   };
+  const showTodoForm = () => {
+    let body = document.querySelector("body");
+    let div = document.createElement("div");
+    div.id = "formBackground";
+    div.innerHTML =
+      '<div id="todoForm"> \
+    <form action="">\
+      <label for="name">Todo name</label>\
+      <input type="text" id="name" />\
+      <label for="dueDate">Due date</label>\
+      <input type="datetime-local" id="dueDate" />\
+      <label for="priority">Priority</label>\
+      <select id="priority" name="priority"\
+        ><option value="None" selected>None</option\
+        ><option value="Low">Low</option>\
+        <option value="Medium">Medium</option\
+        ><option value="High">High</option>\
+      </select>\
+      <label for="description">Description</label>\
+      <textarea id="description"></textarea>\
+    </form>\
+    <div id="todoFormButtons">\
+      <button id="cancelSubmition">Cancel</button>\
+      <button id="submitTodo">Submit</button>\
+    </div>\
+  </div>';
+    body.appendChild(div);
+  };
+  const fetchTodoData = () => {
+    const form = document.querySelector("form");
+    return {
+      name: form.querySelector("#name").value,
+      description: form.querySelector("#description").value,
+      priority: form.querySelector("#priority").value,
+      dueDate: form.querySelector("#dueDate").value
+    };
+  };
   return {
     renderProjects,
     renderTodosContainer,
@@ -140,7 +177,9 @@ const DOMmanipulation = (function() {
     deleteForm,
     fetchProjectData,
     renderTodosHeader,
-    setProjectForm
+    setProjectForm,
+    showTodoForm,
+    fetchTodoData
   };
 })();
 
