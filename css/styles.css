@@ -288,7 +288,8 @@ i {
 }
 
 #todoList {
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   margin: 0px 10px;
   max-height: 440px;
   padding: 5px 0;
@@ -513,4 +514,9 @@ button:hover {
 
 button {
   transition: all 0.4s;
+}
+
+.todo i.up {
+  position: relative;
+  top: 10px;
 }
