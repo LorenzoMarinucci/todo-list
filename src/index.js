@@ -35,42 +35,22 @@ function selectProject(project) {
 }
 
 window.addEventListener("load", () => {
-  projects.push(Project({ name: "Default", description: "Just testing" }));
-  projects.push(Project({ name: "Asdf", description: "Whatever" }));
-  projects[0].todos.push(
-    new Todo({
-      name: "Asdd",
-      priority: "High",
-      dueDate: "2/2/20",
-      description: "arre"
-    })
-  );
-  projects[0].todos.push(
-    new Todo({
-      name: "Correr",
-      priority: "Low",
-      dueDate: "2/2/20",
-      description: "Salir a correr"
-    })
-  );
-  projects[1].todos.push(
-    new Todo({
-      name:
-        "CorrerASÑDJASLDKJASLKDJASLKDJASLKDJASLKJDASLKJDAKLSDASJKLDJLASDJASLDJKASLKJD",
-      priority: "Medium",
-      dueDate: "2/2/20",
-      description: "Salir a correr"
-    })
-  );
-  projects[1].todos.push(
-    new Todo({
-      name: "Nada",
-      priority: "None",
-      dueDate: "2/2/20",
-      description: "Salir a correr"
-    })
-  );
-  projects.push(Project({ name: "", description: "" }));
+  if (localStorage.length > 0) {
+    projects = JSON.parse(localStorage.getItem("projects"));
+  } else {
+    console.log("ad");
+    projects.push(
+      Project({ name: "My Project", description: "Start adding your todos!" })
+    );
+    projects[0].todos.push(
+      Todo({
+        name: "Example",
+        dueDate: "2/2/2020 14:40",
+        description: "Just an example",
+        priority: "Low"
+      })
+    );
+  }
   DOMmanipulation.renderProjects(projectList, projects);
   if (projects.length > 0) {
     autoSelectProject();
@@ -231,5 +211,6 @@ document.addEventListener("click", e => {
         }
       }
     }
+    localStorage.setItem("projects", JSON.stringify(projects));
   }
 });
