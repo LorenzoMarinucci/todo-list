@@ -7,7 +7,8 @@ const projectList = document.getElementById("projectList"),
   addProjectBtn = document.getElementById("addProject");
 let projects = [],
   selectedProject,
-  selectedIndex;
+  selectedIndex,
+  isEdit = false;
 
 function autoSelectProject() {
   selectedProject = document.querySelector(".project");
@@ -80,9 +81,26 @@ addProjectBtn.addEventListener("click", () => {
 });
 
 function addProject() {
-  projects.push(Project(DOMmanipulation.fetchProjectData()));
-  DOMmanipulation.renderProjects(projectList, projects);
-  selectProject(document.querySelectorAll(".project:last-child")[0]);
+  if (isEdit) {
+    let obj = DOMmanipulation.fetchProjectData();
+    projects[selectedIndex].name = obj.name;
+    projects[selectedIndex].description = obj.description;
+    DOMmanipulation.renderProjects(projectList, projects);
+    DOMmanipulation.renderTodosHeader(
+      document.getElementById("todosHeader"),
+      projects[selectedIndex].name,
+      projects[selectedIndex].description
+    );
+    isEdit = false;
+    selectedProject = Array.from(projectList.childNodes).find(
+      child => child.getAttribute("data-index") == selectedIndex
+    );
+    selectedProject.toggleAttribute("selected");
+  } else {
+    projects.push(Project(DOMmanipulation.fetchProjectData()));
+    DOMmanipulation.renderProjects(projectList, projects);
+    selectProject(document.querySelectorAll(".project:last-child")[0]);
+  }
   DOMmanipulation.deleteForm();
 }
 
@@ -103,17 +121,30 @@ function deleteProject() {
   }
 }
 
+function editProject() {
+  isEdit = true;
+  DOMmanipulation.showProjectForm();
+  DOMmanipulation.setProjectForm(
+    projects[selectedIndex].name,
+    projects[selectedIndex].description
+  );
+}
+
 document.addEventListener("click", e => {
   if (e.target) {
     switch (e.target.id) {
       case "cancelSubmition":
         DOMmanipulation.deleteForm();
+        isEdit = false;
         break;
       case "submitProject":
         addProject();
         break;
       case "deleteProject":
         deleteProject();
+        break;
+      case "editProject":
+        editProject();
         break;
       default: {
         if (e.target.parentNode.classList.contains("project"))

@@ -124,13 +124,23 @@ const DOMmanipulation = (function() {
       description: form.querySelector("#description").value
     };
   };
+  const renderTodosHeader = (header, name, description) => {
+    header.querySelector("h2").textContent = name;
+    header.querySelector("p").textContent = description;
+  };
+  const setProjectForm = (name, description) => {
+    document.getElementById("name").value = name;
+    document.getElementById("description").value = description;
+  };
   return {
     renderProjects,
     renderTodosContainer,
     renderTodos,
     showProjectForm,
     deleteForm,
-    fetchProjectData
+    fetchProjectData,
+    renderTodosHeader,
+    setProjectForm
   };
 })();
 
