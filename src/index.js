@@ -131,14 +131,20 @@ function addTodo() {
       DOMmanipulation.fetchTodoData(),
       projects[selectedIndex].todos[selectedTodoIndex].done
     );
+    DOMmanipulation.renderSingleTodo(
+      projects[selectedIndex].todos[selectedTodoIndex],
+      Array.from(document.querySelectorAll(".todo")).find(
+        element => element.getAttribute("data-index") == selectedTodoIndex
+      )
+    );
     isTodoEdit = false;
   } else {
     projects[selectedIndex].todos.push(new Todo(obj));
+    DOMmanipulation.renderTodos(
+      document.getElementById("todoList"),
+      projects[selectedIndex]
+    );
   }
-  DOMmanipulation.renderTodos(
-    document.getElementById("todoList"),
-    projects[selectedIndex]
-  );
   DOMmanipulation.deleteForm();
 }
 
@@ -161,6 +167,18 @@ function deleteTodo() {
   DOMmanipulation.renderTodos(
     document.getElementById("todoList"),
     projects[selectedIndex]
+  );
+}
+
+function todoExpansion() {
+  projects[selectedIndex].todos[selectedTodoIndex].expand = !projects[
+    selectedIndex
+  ].todos[selectedTodoIndex].expand;
+  DOMmanipulation.renderSingleTodo(
+    projects[selectedIndex].todos[selectedTodoIndex],
+    Array.from(document.querySelectorAll(".todo")).find(
+      element => element.getAttribute("data-index") == selectedTodoIndex
+    )
   );
 }
 
@@ -205,6 +223,11 @@ document.addEventListener("click", e => {
             e.target.closest(".todo").getAttribute("data-index")
           );
           deleteTodo();
+        } else if (e.target.nodeName == "I") {
+          selectedTodoIndex = parseInt(
+            e.target.closest(".todo").getAttribute("data-index")
+          );
+          todoExpansion();
         }
       }
     }

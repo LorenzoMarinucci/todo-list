@@ -54,44 +54,68 @@ const DOMmanipulation = (function() {
         let div = document.createElement("div");
         div.classList.add("todo");
         div.setAttribute("data-index", index);
-        let todoHeader = document.createElement("div");
-        todoHeader.classList.add("todoHeader");
-        let h3 = document.createElement("h3");
-        let color;
-        switch (todo.priority) {
-          case "High":
-            color = "red";
-            break;
-          case "Low":
-            color = "green";
-            break;
-          case "Medium":
-            color = "yellow";
-            break;
-          default:
-            color = "grey";
-        }
-        h3.innerHTML = `<span class="dot ${color}"></span> ${todo.name}`;
-        todoHeader.appendChild(h3);
-        let buttons = document.createElement("div");
-        buttons.classList.add("buttons");
-        let checked = todo.done ? ' checked="checked"' : "";
-        buttons.innerHTML = `<label class="container"><input type="checkbox"${checked} /><span class="checkmark"></span></label><div class="todoOptions"><img class="edit" src="images/edit.png" /><img class="delete" src="images/delete.png" /></div></div><i class="up" class="showTodo"></i>`;
-        todoHeader.appendChild(h3);
-        todoHeader.appendChild(buttons);
-        let due = document.createElement("h4");
-        due.textContent = `Due: ${todo.dueDate}`;
-        let priority = document.createElement("h4");
-        priority.textContent = `Priority: ${todo.priority}`;
-        let p = document.createElement("p");
-        p.classList.add("description");
-        p.textContent = todo.description;
-        div.appendChild(todoHeader);
-        div.appendChild(due);
-        div.appendChild(priority);
-        div.appendChild(p);
+        renderSingleTodo(todo, div);
         container.appendChild(div);
       });
+    }
+  };
+  const renderSingleTodo = (todo, todoElement) => {
+    while (todoElement.firstChild) todoElement.firstChild.remove();
+    let todoHeader = document.createElement("div");
+    todoHeader.classList.add("todoHeader");
+    let h3 = document.createElement("h3");
+    let color;
+    switch (todo.priority) {
+      case "High":
+        color = "red";
+        break;
+      case "Low":
+        color = "green";
+        break;
+      case "Medium":
+        color = "yellow";
+        break;
+      default:
+        color = "grey";
+    }
+    h3.innerHTML = `<span class="dot ${color}"></span> ${todo.name}`;
+    todoHeader.appendChild(h3);
+    let buttons = document.createElement("div");
+    buttons.classList.add("buttons");
+    let checked = todo.done ? ' checked="checked"' : "";
+    let arrow = todo.expand == undefined || todo.expand == true ? "up" : "down";
+    buttons.innerHTML = `<label class="container"><input type="checkbox"${checked} /><span class="checkmark"></span></label><div class="todoOptions"><img class="edit" src="images/edit.png" /><img class="delete" src="images/delete.png" /></div></div><i class="${arrow}" class="showTodo"></i>`;
+    todoHeader.appendChild(h3);
+    todoHeader.appendChild(buttons);
+    let due = document.createElement("h4");
+    due.textContent = `Due: ${todo.dueDate}`;
+    todoElement.appendChild(todoHeader);
+    todoElement.appendChild(due);
+    if (todo.expand == undefined || todo.expand == true) {
+      todo.expand = true;
+      let priority = document.createElement("h4");
+      priority.textContent = `Priority: ${todo.priority}`;
+      let p = document.createElement("p");
+      p.classList.add("description");
+      p.textContent = todo.description;
+      todoElement.appendChild(priority);
+      todoElement.appendChild(p);
+    }
+  };
+  const expansionHandler = (todo, todoElement) => {
+    if (todo.expand) {
+      let priority = document.createElement("h4");
+      priority.textContent = `Priority: ${todo.priority}`;
+      let p = document.createElement("p");
+      p.classList.add("description");
+      p.textContent = todo.description;
+      todoElement.appendChild(priority);
+      todoElement.appendChild(p);
+      todoElement.querySelector("i").className = "up";
+    } else {
+      todoElement.lastChild.remove();
+      todoElement.lastChild.remove();
+      todoElement.querySelector("i").className = "down";
     }
   };
   const showProjectForm = () => {
@@ -135,7 +159,8 @@ const DOMmanipulation = (function() {
   };
   const setTodoForm = obj => {
     for (let key in obj) {
-      if (key != "done") document.getElementById(key).value = obj[key];
+      if (key != "done" && key != "expand")
+        document.getElementById(key).value = obj[key];
     }
   };
   const showTodoForm = () => {
@@ -186,7 +211,9 @@ const DOMmanipulation = (function() {
     setProjectForm,
     showTodoForm,
     fetchTodoData,
-    setTodoForm
+    setTodoForm,
+    renderSingleTodo,
+    expansionHandler
   };
 })();
 
