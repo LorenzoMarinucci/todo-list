@@ -48,8 +48,8 @@ const DOMmanipulation = (function() {
     container.appendChild(projectButtons);
   };
   const renderTodos = function(container, project) {
+    while (container.firstChild) container.firstChild.remove();
     if (project.todos.length > 0) {
-      while (container.firstChild) container.firstChild.remove();
       project.todos.forEach((todo, index) => {
         let div = document.createElement("div");
         div.classList.add("todo");
@@ -76,7 +76,7 @@ const DOMmanipulation = (function() {
         let buttons = document.createElement("div");
         buttons.classList.add("buttons");
         let checked = todo.done ? ' checked="checked"' : "";
-        buttons.innerHTML = `<label class="container"><input type="checkbox"${checked} /><span class="checkmark"></span></label><div class="todoOptions"><img class="edit" src="images/edit.png" /><img class="delete" src="images/delete.png" /></div></div><i class="down" class="showTodo"></i>`;
+        buttons.innerHTML = `<label class="container"><input type="checkbox"${checked} /><span class="checkmark"></span></label><div class="todoOptions"><img class="edit" src="images/edit.png" /><img class="delete" src="images/delete.png" /></div></div><i class="up" class="showTodo"></i>`;
         todoHeader.appendChild(h3);
         todoHeader.appendChild(buttons);
         let due = document.createElement("h4");
@@ -128,9 +128,15 @@ const DOMmanipulation = (function() {
     header.querySelector("h2").textContent = name;
     header.querySelector("p").textContent = description;
   };
-  const setProjectForm = (name, description) => {
-    document.getElementById("name").value = name;
-    document.getElementById("description").value = description;
+  const setProjectForm = obj => {
+    for (let key in obj) {
+      if (key != "todos") document.getElementById(key).value = obj[key];
+    }
+  };
+  const setTodoForm = obj => {
+    for (let key in obj) {
+      if (key != "done") document.getElementById(key).value = obj[key];
+    }
   };
   const showTodoForm = () => {
     let body = document.querySelector("body");
@@ -179,7 +185,8 @@ const DOMmanipulation = (function() {
     renderTodosHeader,
     setProjectForm,
     showTodoForm,
-    fetchTodoData
+    fetchTodoData,
+    setTodoForm
   };
 })();
 

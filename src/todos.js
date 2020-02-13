@@ -1,5 +1,4 @@
-const Todo = function(obj) {
-  let done = false;
+const Todo = function(obj, done = false) {
   if (!obj.name) obj.name = "Todo";
   return {
     name: obj.name,

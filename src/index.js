@@ -7,6 +7,8 @@ const projectList = document.getElementById("projectList"),
 let projects = [],
   selectedProject,
   selectedIndex,
+  selectedTodoIndex,
+  isTodoEdit = false,
   isEdit = false;
 
 function autoSelectProject() {
@@ -119,16 +121,20 @@ function deleteProject() {
 function editProject() {
   isEdit = true;
   DOMmanipulation.showProjectForm();
-  DOMmanipulation.setProjectForm(
-    projects[selectedIndex].name,
-    projects[selectedIndex].description
-  );
+  DOMmanipulation.setProjectForm(projects[selectedIndex]);
 }
 
 function addTodo() {
   let obj = DOMmanipulation.fetchTodoData();
-  console.log(obj);
-  projects[selectedIndex].todos.push(new Todo(obj));
+  if (isTodoEdit) {
+    projects[selectedIndex].todos[selectedTodoIndex] = Todo(
+      DOMmanipulation.fetchTodoData(),
+      projects[selectedIndex].todos[selectedTodoIndex].done
+    );
+    isTodoEdit = false;
+  } else {
+    projects[selectedIndex].todos.push(new Todo(obj));
+  }
   DOMmanipulation.renderTodos(
     document.getElementById("todoList"),
     projects[selectedIndex]
@@ -144,12 +150,27 @@ function checkmarkTodo(todo) {
   ].done;
 }
 
+function editTodo() {
+  isTodoEdit = true;
+  DOMmanipulation.showTodoForm();
+  DOMmanipulation.setTodoForm(projects[selectedIndex].todos[selectedTodoIndex]);
+}
+
+function deleteTodo() {
+  projects[selectedIndex].todos.splice(selectedTodoIndex, 1);
+  DOMmanipulation.renderTodos(
+    document.getElementById("todoList"),
+    projects[selectedIndex]
+  );
+}
+
 document.addEventListener("click", e => {
   if (e.target) {
     switch (e.target.id) {
       case "cancelSubmition":
         DOMmanipulation.deleteForm();
         isEdit = false;
+        isTodoEdit = false;
         break;
       case "submitProject":
         addProject();
@@ -174,6 +195,17 @@ document.addEventListener("click", e => {
           selectProject(e.target.parentNode);
         else if (e.target.classList.contains("checkmark"))
           checkmarkTodo(e.target.closest(".todo"));
+        else if (e.target.classList.contains("edit")) {
+          selectedTodoIndex = parseInt(
+            e.target.closest(".todo").getAttribute("data-index")
+          );
+          editTodo();
+        } else if (e.target.classList.contains("delete")) {
+          selectedTodoIndex = parseInt(
+            e.target.closest(".todo").getAttribute("data-index")
+          );
+          deleteTodo();
+        }
       }
     }
   }
