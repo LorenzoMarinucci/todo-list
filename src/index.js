@@ -4,7 +4,7 @@ import DOMmanipulation from "./DOM.js";
 
 const projectList = document.getElementById("projectList"),
   todosContainer = document.getElementById("todosContainer");
-let projects = [],
+let projects,
   selectedProject,
   selectedIndex,
   selectedTodoIndex,
@@ -35,10 +35,11 @@ function selectProject(project) {
 }
 
 window.addEventListener("load", () => {
-  if (localStorage.length > 0) {
-    projects = JSON.parse(localStorage.getItem("projects"));
+  projects = localStorage.getItem("projects");
+  if (projects) {
+    projects = JSON.parse(projects);
   } else {
-    console.log("ad");
+    projects = [];
     projects.push(
       Project({ name: "My Project", description: "Start adding your todos!" })
     );
