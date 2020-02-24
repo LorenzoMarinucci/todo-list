@@ -1,3 +1,7 @@
+import formatRelative from "../node_modules/date-fns/formatRelative";
+import format from "../node_modules/date-fns/format";
+import differenceInDays from "../node_modules/date-fns/differenceInDays";
+
 const DOMmanipulation = (function() {
   const renderProjects = function(container, projects) {
     while (container.firstChild) {
@@ -88,7 +92,25 @@ const DOMmanipulation = (function() {
     todoHeader.appendChild(h3);
     todoHeader.appendChild(buttons);
     let due = document.createElement("h4");
-    due.textContent = `Due: ${todo.dueDate}`;
+    due.textContent = "Due: ";
+    if (todo.dueDate) {
+      if (parseInt(todo.dueDate) > 10000) {
+        let date = todo.dueDate.split(/-|T|:/);
+        due.textContent += format(new Date(...date), "Pp");
+      } else {
+        if (
+          Math.abs(differenceInDays(new Date(), new Date(todo.dueDate))) < 6
+        ) {
+          let text = formatRelative(new Date(todo.dueDate), new Date());
+          text = text.charAt(0).toUpperCase() + text.slice(1);
+          due.textContent += text;
+        } else {
+          due.textContent += format(new Date(todo.dueDate), "	Pp");
+        }
+      }
+    } else {
+      due.textContent += "not set.";
+    }
     todoElement.appendChild(todoHeader);
     todoElement.appendChild(due);
     if (todo.expand == undefined || todo.expand == true) {

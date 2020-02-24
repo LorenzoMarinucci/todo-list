@@ -1,6 +1,9 @@
 import Project from "./projects.js";
 import Todo from "./todos.js";
 import DOMmanipulation from "./DOM.js";
+import formatRelative from "../node_modules/date-fns/formatRelative";
+import format from "../node_modules/date-fns/format";
+import differenceInDays from "../node_modules/date-fns/differenceInDays";
 
 const projectList = document.getElementById("projectList"),
   todosContainer = document.getElementById("todosContainer");
@@ -46,7 +49,7 @@ window.addEventListener("load", () => {
     projects[0].todos.push(
       Todo({
         name: "Example",
-        dueDate: "2/2/2020 14:40",
+        dueDate: "",
         description: "Just an example",
         priority: "Low"
       })
